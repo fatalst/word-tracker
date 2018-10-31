@@ -39,7 +39,7 @@ def new():
 			project = input(">> ")
 
 	if(project != 5):
-		print("What type of tracker do you want to use?")
+		print("What length of tracker do you want to use?")
 		print("1. Months.")
 		print("2. Weeks.")
 		print("3. Days.")
@@ -51,7 +51,7 @@ def new():
 				done = False
 				length = parseLength(l)
 				# TODO: add confirmation
-				print("Your tracking type is " + length + ".\n")
+				print("Your tracker is in " + length + ".\n")
 			else:
 				print("Not a valid response. Try again.")
 				project = input(">> ")
@@ -74,10 +74,18 @@ def new():
 				project = input(">> ")
 	else:
 		length = "days"
-		print("For NaNoWriMo, your tracking type is " + length + ".\n")
+		print("For NaNoWriMo, your tracker is in " + length + ".\n")
 
 		tracker = "words"
 		print("For NaNoWriMo, you will be tracking " + tracker + ".\n")
+
+	data[answer].append({
+		'type': projType,
+		'length': length,
+		'tracker': tracker
+		})
+
+	save(data)
 
 
 # function to return type of project	
@@ -116,5 +124,11 @@ def parseTracker(t):
 		return raw_input(">> ")
 
 def save(data):
-	with open('projects.json', 'w') as outfile:
-		json.dump(data, outfile)
+	fname = 'projects.json'
+
+	with open(fname) as file:
+		file = json.load(file)
+
+	with open(fname, 'w') as j:
+		file.append(data)
+		json.dump(file, j)
